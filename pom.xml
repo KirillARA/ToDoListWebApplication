@@ -11,9 +11,13 @@
     <spring.version>7.0.8</spring.version>
     <servlet.version>6.1.0</servlet.version>
     <jstl.version>3.0.2</jstl.version>
+    <hibernate.version>7.4.7.Final</hibernate.version>
+    <postgres.version>42.7.13</postgres.version>
+    <jakarta.version>3.2.0</jakarta.version>
 
   </properties>
   <dependencies>
+<!--    WEB -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
@@ -37,6 +41,38 @@
       <artifactId>jakarta.servlet.jsp.jstl</artifactId>
       <version>3.0.1</version>
     </dependency>
+
+<!-- DB   -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>${spring.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>${postgres.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate.orm</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>${hibernate.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.persistence</groupId>
+      <artifactId>jakarta.persistence-api</artifactId>
+      <version>${jakarta.version}</version>
+      <scope>compile</scope>
+    </dependency>
+      <dependency>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-dbcp2</artifactId>
+          <version>2.12.0</version>
+          <scope>compile</scope>
+      </dependency>
   </dependencies>
 
   <build>

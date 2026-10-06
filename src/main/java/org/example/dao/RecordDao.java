@@ -1,41 +1,48 @@
 package org.example.dao;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import org.example.entity.Record;
 import org.example.entity.RecordStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Repository
 public class RecordDao {
-    private final List<Record> records = new ArrayList<>(
-            Arrays.asList(
-                    new Record("Take a shower", RecordStatus.ACTIVE),
-                    new Record("Buy flowers", RecordStatus.DONE),
-                    new Record("Go to the gym", RecordStatus.ACTIVE)
-            )
-    );
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public List<Record> findAllRecords() {
-        return new ArrayList<>(records);
+        Query query= entityManager.createQuery("SELECT r FROM  Record r order by r.id ASC ");
+        List<Record> records = query.getResultList();
+        return records;
     }
 
     public void saveRecord(Record record){
-        records.add(record);
+        entityManager.persist(record);
     }
+
 
     public void updateRecordStatus(int id, RecordStatus newStatus){
-        for (Record item: records){
-            if (item.getId() == id){
-                item.setStatus(newStatus);
-                break;
-            }
-        }
+        Query query= entityManager.createQuery("UPDATE Record SET status = :status  where id = :id");
+        query.setParameter("id", id);
+        query.setParameter("status", newStatus);
+        query.executeUpdate();
     }
 
+
     public void deleteRecord(int id){
-        records.removeIf(item -> item.getId() == id);
+        Query query = entityManager.createQuery("DELETE from Record WHERE id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
 }

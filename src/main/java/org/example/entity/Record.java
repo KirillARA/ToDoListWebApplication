@@ -1,25 +1,44 @@
 package org.example.entity;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "records")
 public class Record {
-    private static int counterSequence = 0;
-    private final int id;
-    private final String title;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
+
+    @Column(name = "title", nullable = false, length = 100)
+    private  String title;
+
+    @Column(name = "status", nullable = false)
     private RecordStatus status;
 
-    public Record(String title, RecordStatus status) {
-        this.id = counterSequence++;
+    public Record() {
+    }
+
+    public Record(String title) {
+
         this.title = title;
-        this.status = status;
+        this.status = RecordStatus.ACTIVE;
     }
 
     public int getId() {
         return id;
     }
 
-    public Record(String title) {
-        this.id = counterSequence++;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
         this.title = title;
-        this.status = RecordStatus.ACTIVE;
     }
 
     public RecordStatus getStatus() {
@@ -28,9 +47,5 @@ public class Record {
 
     public void setStatus(RecordStatus status) {
         this.status = status;
-    }
-
-    public String getTitle() {
-        return title;
     }
 }
